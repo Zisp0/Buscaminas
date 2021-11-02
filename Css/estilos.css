@@ -1,6 +1,6 @@
 :root{
     --anchoContenedor: 500px;
-    --altoContenedor: 450px;
+    --altoContenedor: 460px;
     --anchoCasilla: 50px;
     --altoCasilla: 50px; 
     --cantFilas: 8;
@@ -25,10 +25,11 @@ body{
 .contenedor{
     width: var(--anchoContenedor);
     height: var(--altoContenedor);
+    background-color: #eeeeee;
 }
 
 .menu{
-    height: 50px;
+    height: 60px;
     background-color: #4a752c;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -40,7 +41,15 @@ body{
 
 .marcadores{
     display: flex;
+    justify-content: space-between;
+}
+
+.marca{
+    display: flex;
+    align-items: center;
     justify-content: space-around;
+    justify-items: center;
+    width: 50%;
 }
 
 .tablero{
@@ -60,6 +69,24 @@ body{
     height: var(--altoCasilla);
     width: var(--anchoCasilla);
     margin: 0;
+}
+
+.mina{
+    display: flex;
+    text-align: center;
+    margin-top: 30%;
+}
+
+.bandera{
+    color: red;
+    font-size: 30px;
+    height: min-content;
+}
+
+#reloj{
+    color: black;
+    font-size: 30px;
+    height: min-content;
 }
 
 /* #a2d149

@@ -37,10 +37,10 @@ function detalles(){
             $(this).css("background-color", "#E1CBB4");
         });
 
-        if(matrizEstados[posicionFila($(this).attr("id"))][posicionColum($(this).attr("id"))] == 0){
-            $(this).css("background-color", "#bee17d");
-        }else{
+        if(matrizEstados[posicionFila($(this).attr("id"))][posicionColum($(this).attr("id"))] == 1){
             $(this).css("background-color", "#E1CBB4");
+        }else{
+            $(this).css("background-color", "#bee17d");
         }
       },
       function(){
@@ -96,7 +96,7 @@ function colocarMinas(){
     for(i = 0; i < cantFilas; i++) {
         for(let j = 0; j < cantColum; j++) {
             if(matrizDatos[i][j] == "X"){
-                if(i > 0 && matrizDatos[i-1][j] != "X"){
+                /* if(i > 0 && matrizDatos[i-1][j] != "X"){
                     matrizDatos[i-1][j]++;
                 }
                 if(i < cantFilas-1 && matrizDatos[i+1][j] != "X"){
@@ -119,11 +119,26 @@ function colocarMinas(){
                 }
                 if(i < cantFilas-1 && j < cantColum-1 && matrizDatos[i+1][j+1] != "X"){
                     matrizDatos[i+1][j+1]++;
+                } */
+
+                for(let k = -1; k <= 1; k++){
+                    for (let l = -1; l <= 1; l++){
+                        if(k == 0 && l == 0){
+                            continue;
+                        }
+                        let f = eval(parseInt(i) + parseInt(k));
+                        let c = eval(parseInt(j) + parseInt(l));
+                        if(f < 0 || c < 0 || f > cantFilas - 1 || c > cantColum - 1){
+                            continue;
+                        }
+                        
+                        if(matrizDatos[f][c] != "X"){
+                            matrizDatos[f][c]++;
+                        }
+                    }
                 }
             }
         }
-
-        console.log(matrizDatos[i]);
     }
 }
 
@@ -147,37 +162,55 @@ function validar(posFila, posColum){
     if(matrizEstados[posFila][posColum] == 0){
         if(matrizDatos[posFila][posColum] == 0){
             ceros(posFila, posColum);
+        }else{
+            if(matrizDatos[posFila][posColum] == "X"){
+                juegoPerdido();
+            }else{
+                mostrar(posFila, posColum);
+            }
         }
         
-        mostrar(posFila, posColum);
     }
 }
 
-function mostrar(posFila, posColum){
-    if((posFila % 2 == 0 && posColum % 2 == 0) || (posFila % 2 != 0 && posColum % 2 != 0)){
-        $("#" + posFila + "-" + posColum).css("background-color", "#D7B899");
+function mostrar(posFila, posColum, color = 0){
+    if(color == 0){
+        if((posFila % 2 == 0 && posColum % 2 == 0) || (posFila % 2 != 0 && posColum % 2 != 0)){
+            $("#" + posFila + "-" + posColum).fadeOut(100).css("background-color", "#D7B899").fadeIn(100);
+        }else{
+            $("#" + posFila + "-" + posColum).fadeOut(100).css("background-color", "#E4C29F").fadeIn(100);
+        }
     }else{
-        $("#" + posFila + "-" + posColum).css("background-color", "#E4C29F");
+        if(matrizDatos[posFila][posColum] == "X"){
+            $("#" + posFila + "-" + posColum).fadeOut(100).css("background-color", color).fadeIn(100);
+        }
     }
 
     if(matrizDatos[posFila][posColum] != 0){
-        $("#" + posFila + "-" + posColum).text(matrizDatos[posFila][posColum]);
+        if(matrizDatos[posFila][posColum] == "X"){
+            $("#" + posFila + "-" + posColum).append('<div class="mina"><i class="fas fa-bomb"></i></div>');
+        }else{
+            if(color == 0){
+                $("#" + posFila + "-" + posColum).text(matrizDatos[posFila][posColum]);
+            }
+        }
     }
 
     matrizEstados[posFila][posColum] = 1;
 }
 
-function ceros(i, j){
+function ceros(i, j, m = 0){
     for(let k = -1; k <= 1; k++){
         for (let l = -1; l <= 1; l++){
             if(k == 0 && l == 0){
                 continue;
             }
-            let f = eval(i + k);
-            let c = eval(j + l);
+            let f = eval(parseInt(i) + parseInt(k));
+            let c = eval(parseInt(j) + parseInt(l));
             if(f < 0 || c < 0 || f > cantFilas - 1 || c > cantColum - 1){
                 continue;
             }
+            
             if(matrizEstados[f][c] == 0){
                 mostrar(f, c);
                 if(matrizDatos[f][c] == 0){
@@ -187,4 +220,15 @@ function ceros(i, j){
         }
     }
     
+}
+
+function juegoPerdido(){
+
+    $(".contenedor").css("background-color", "red");
+    for (let i = 0; i < cantFilas; i++) {
+        for (let j = 0; j < cantColum; j++) {
+            mostrar(i, j, "#ff0000");
+        }
+        
+    }
 }
