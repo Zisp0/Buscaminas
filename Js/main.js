@@ -7,18 +7,7 @@ $(document).ready(function(){
     var cantMinas;
 
     iniciarTablero();
-    iniciarMatriz();
-
-    $(".dificultad").click(function(){
-        $(".tablero").empty();
-        $(":root").css("--cantFilas", 10);
-        $(":root").css("--cantColum", 8);
-        
-        iniciarTablero();
-
-        $(":root").css("--anchoContenedor", "400px");
-        $(":root").css("--altoContenedor", "550px");
-    });  
+    iniciarMatriz(); 
 });
 
 function detalles(){
@@ -96,31 +85,6 @@ function colocarMinas(){
     for(i = 0; i < cantFilas; i++) {
         for(let j = 0; j < cantColum; j++) {
             if(matrizDatos[i][j] == "X"){
-                /* if(i > 0 && matrizDatos[i-1][j] != "X"){
-                    matrizDatos[i-1][j]++;
-                }
-                if(i < cantFilas-1 && matrizDatos[i+1][j] != "X"){
-                    matrizDatos[i+1][j]++;
-                }
-                if(j > 0 && matrizDatos[i][j-1] != "X"){
-                    matrizDatos[i][j-1]++;
-                }
-                if(j < cantColum-1 && matrizDatos[i][j+1] != "X"){
-                    matrizDatos[i][j+1]++;
-                }
-                if(i > 0 && j > 0 && matrizDatos[i-1][j-1] != "X"){
-                    matrizDatos[i-1][j-1]++;
-                }
-                if(i > 0 && j < cantColum-1 && matrizDatos[i-1][j+1] != "X"){
-                    matrizDatos[i-1][j+1]++;
-                }
-                if(i < cantFilas-1 && j > 0 && matrizDatos[i+1][j-1] != "X"){
-                    matrizDatos[i+1][j-1]++;
-                }
-                if(i < cantFilas-1 && j < cantColum-1 && matrizDatos[i+1][j+1] != "X"){
-                    matrizDatos[i+1][j+1]++;
-                } */
-
                 for(let k = -1; k <= 1; k++){
                     for (let l = -1; l <= 1; l++){
                         if(k == 0 && l == 0){
@@ -169,7 +133,6 @@ function validar(posFila, posColum){
                 mostrar(posFila, posColum);
             }
         }
-        
     }
 }
 
@@ -195,7 +158,6 @@ function mostrar(posFila, posColum, color = 0){
             }
         }
     }
-
     matrizEstados[posFila][posColum] = 1;
 }
 
@@ -219,11 +181,9 @@ function ceros(i, j, m = 0){
             }
         }
     }
-    
 }
 
 function juegoPerdido(){
-
     $(".contenedor").css("background-color", "red");
     for (let i = 0; i < cantFilas; i++) {
         for (let j = 0; j < cantColum; j++) {
